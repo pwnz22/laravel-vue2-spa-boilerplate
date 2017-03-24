@@ -62,4 +62,18 @@ class AuthController extends Controller
             ]
         ], 200);
     }
+
+    public function logout()
+    {
+        $this->auth->invalidate($this->auth->getToken());
+
+        return response(['succes' => 'logged out'], 200);
+    }
+
+    public function user(Request $request)
+    {
+        return response()->json([
+            'data' => $request->user()
+        ], 200);
+    }
 }
