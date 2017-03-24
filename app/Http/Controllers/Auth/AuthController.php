@@ -23,14 +23,14 @@ class AuthController extends Controller
         try {
             if (!$token = $this->auth->attempt($request->only('email', 'password')) ) {
                 return response()->json([
-                    'errors' => [
+                    'error' => [
                         'root' => 'Не удалось зайти.'
                     ]
                 ], 401);
             }
         } catch(JWTException $e) {
                 return response()->json([
-                    'errors' => [
+                    'error' => [
                         'root' => 'Failed'
                     ]
                 ], $e->getStatusCode()
@@ -67,7 +67,7 @@ class AuthController extends Controller
     {
         $this->auth->invalidate($this->auth->getToken());
 
-        return response(['succes' => 'logged out'], 200);
+        return response(['success' => 'logged out'], 200);
     }
 
     public function user(Request $request)
