@@ -10037,7 +10037,7 @@ module.exports = defaults;
 /* unused harmony export mapState */
 /* unused harmony export mapMutations */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapGetters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mapActions; });
 /**
  * vuex v2.2.1
  * (c) 2017 Evan You
@@ -10840,7 +10840,7 @@ var index_esm = {
   mapActions: mapActions
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (index_esm);
+/* harmony default export */ __webpack_exports__["b"] = (index_esm);
 
 
 /***/ }),
@@ -11158,6 +11158,13 @@ __webpack_require__(48);
 
 Vue.component('app', __webpack_require__(56));
 Vue.component('navigation', __webpack_require__(57));
+
+__WEBPACK_IMPORTED_MODULE_1__vuex__["a" /* default */].dispatch('auth/setToken').then(() => {
+    __WEBPACK_IMPORTED_MODULE_1__vuex__["a" /* default */].dispatch('auth/fetchUser').catch(() => {
+        __WEBPACK_IMPORTED_MODULE_1__vuex__["a" /* default */].dispatch('auth/clearAuth');
+        __WEBPACK_IMPORTED_MODULE_0__router__["a" /* default */].replace({ name: 'login' });
+    });
+});
 
 const app = new Vue({
     el: '#app',
@@ -12088,7 +12095,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         };
     },
 
-    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapActions */])({
         register: 'auth/register'
     }), {
         onSubmit() {
@@ -12245,7 +12252,13 @@ const Register = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('register
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
+
+
 
 
 const register = ({ dispatch }, { payload, context }) => {
@@ -12279,10 +12292,32 @@ const fetchUser = ({ commit }) => {
 
 
 const setToken = ({ commit, dispatch }, token) => {
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_lodash__["isEmpty"])(token)) {
+        return dispatch('checkTokenExists').then(token => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helpers__["a" /* setHttpToken */])(token));
+    }
     commit('SET_TOKEN', token);
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__["a" /* setHttpToken */])(token);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helpers__["a" /* setHttpToken */])(token);
 };
 /* harmony export (immutable) */ __webpack_exports__["setToken"] = setToken;
+
+
+const checkTokenExists = ({ commit, dispatch }, token) => {
+    return __WEBPACK_IMPORTED_MODULE_2_localforage___default.a.getItem('authtoken').then(token => {
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_lodash__["isEmpty"])(token)) {
+            return Promise.reject('NO_STORAGE_TOKEN');
+        }
+        return Promise.resolve(token);
+    });
+};
+/* harmony export (immutable) */ __webpack_exports__["checkTokenExists"] = checkTokenExists;
+
+const clearAuth = ({ commit }, token) => {
+    commit('SET_AUTHENTICATED', false);
+    commit('SET_USER_DATA', null);
+    commit('SET_TOKEN', null);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helpers__["a" /* setHttpToken */])(null);
+};
+/* harmony export (immutable) */ __webpack_exports__["clearAuth"] = clearAuth;
 
 
 /***/ }),
@@ -12502,9 +12537,9 @@ const router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* default */].Store({
     modules: {
         auth: __WEBPACK_IMPORTED_MODULE_2__app_auth_vuex__["a" /* default */]
     }
@@ -32624,7 +32659,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         };
     },
 
-    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])({
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapActions */])({
         login: 'auth/login'
     }), {
         onSubmit() {
