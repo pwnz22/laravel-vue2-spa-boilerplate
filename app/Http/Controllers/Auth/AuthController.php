@@ -23,7 +23,7 @@ class AuthController extends Controller
         try {
             if (!$token = $this->auth->attempt($request->only('email', 'password')) ) {
                 return response()->json([
-                    'error' => [
+                    'errors' => [
                         'root' => 'Не удалось зайти.'
                     ]
                 ], 401);
