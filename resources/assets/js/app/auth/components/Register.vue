@@ -7,27 +7,36 @@
                 <div class="panel-body">
                     <form class="form-horizontal" @submit.prevent="onSubmit" role="form">
 
-                        <div class="form-group">
+                        <div class="form-group" :class="{ 'has-error': errors.name }">
                             <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
                                 <input type="text" id="name" class="form-control" v-model="name" autofocus>
+                                <span class="help-block" v-if="errors.name">
+                                    {{ errors.name[0] }}
+                                </span>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" :class="{ 'has-error': errors.email }">
                             <label for="email" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
                                 <input type="text" id="email" class="form-control" v-model="email" autofocus>
+                                <span class="help-block" v-if="errors.email">
+                                    {{ errors.email[0] }}
+                                </span>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" :class="{ 'has-error': errors.password }">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
                                 <input type="password" id="password" class="form-control" v-model="password" autofocus>
+                                <span class="help-block" v-if="errors.password">
+                                    {{ errors.password[0] }}
+                                </span>
                             </div>
                         </div>
 
@@ -51,7 +60,8 @@
             return {
                 name: null,
                 email: null,
-                password: null
+                password: null,
+                errors: []
             }
         },
 
@@ -65,7 +75,8 @@
                         name: this.name,
                         email: this.email,
                         password: this.password
-                    }
+                    },
+                    context: this
                 })
             }
         }
