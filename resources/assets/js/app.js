@@ -17,7 +17,8 @@ store.dispatch('auth/setToken').then(() => {
         store.dispatch('auth/clearAuth')
         router.replace({ name: 'login' })
     })
-})
+}).catch(() => store.dispatch('auth/clearAuth'))
+
 
 const app = new Vue({
     el: '#app',
