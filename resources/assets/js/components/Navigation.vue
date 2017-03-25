@@ -31,16 +31,14 @@
                     <!-- Authentication Links -->
                     <li><router-link :to="{ name: 'timeline' }">Timeline</router-link></li>
 
-                    <li class="dropdown">
+                    <li class="dropdown open">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ user.data.name }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#">
-                                    Logout
-                                </a>
+                                <a href="#" @click.prevent="signOut">Logout</a>
                             </li>
                         </ul>
                     </li>
@@ -51,10 +49,20 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     export default {
         computed: mapGetters({
             user: 'auth/user'
-        })
+        }),
+
+        methods: {
+            ...mapActions({
+                logout: 'auth/logout'
+            }),
+
+            signOut() {
+                this.logout().then(() => this.$router.replace({ name: 'home' }))
+            }
+        }
     }
 </script>

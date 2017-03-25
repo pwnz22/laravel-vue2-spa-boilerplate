@@ -12144,8 +12144,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(5);
-//
-//
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -12201,6 +12201,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])({
         user: 'auth/user'
+    }),
+
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapActions */])({
+        logout: 'auth/logout'
+    }), {
+
+        signOut() {
+            this.logout().then(() => this.$router.replace({ name: 'home' }));
+        }
     })
 });
 
@@ -12289,6 +12298,12 @@ const fetchUser = ({ commit }) => {
     });
 };
 /* harmony export (immutable) */ __webpack_exports__["fetchUser"] = fetchUser;
+
+
+const logout = ({ dispatch }) => {
+    return axios.post('/api/logout').then(response => dispatch('clearAuth'));
+};
+/* harmony export (immutable) */ __webpack_exports__["logout"] = logout;
 
 
 const setToken = ({ commit, dispatch }, token) => {
@@ -30218,7 +30233,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("Timeline")])], 1), _vm._v(" "), _c('li', {
-    staticClass: "dropdown"
+    staticClass: "dropdown open"
   }, [_c('a', {
     staticClass: "dropdown-toggle",
     attrs: {
@@ -30229,7 +30244,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                        " + _vm._s(_vm.user.data.name) + " "), _c('span', {
     staticClass: "caret"
-  })]), _vm._v(" "), _vm._m(1)])]) : _vm._e()])])])
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu",
+    attrs: {
+      "role": "menu"
+    }
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.signOut($event)
+      }
+    }
+  }, [_vm._v("Logout")])])])])]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "navbar-toggle collapsed",
@@ -30247,17 +30277,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('span', {
     staticClass: "icon-bar"
   })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "dropdown-menu",
-    attrs: {
-      "role": "menu"
-    }
-  }, [_c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("\n                                Logout\n                            ")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
